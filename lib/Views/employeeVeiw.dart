@@ -34,8 +34,8 @@ class _EmployeeListState extends State<EmployeeView> with SingleTickerProviderSt
     Future ft = Future(() {});
     for (var i = 0; i < employees.length; i++) {
       ft = ft.then((_) {
-        return Future.delayed(const Duration(milliseconds: 100), () {
-          if (_listKey.currentState != null && i <= _employees.length) { // Safety check
+        return Future.delayed(const Duration(milliseconds: 200), () {
+          if (_listKey.currentState != null && i <= _employees.length) {
             _listKey.currentState!.insertItem(i);
           }
         });
@@ -68,7 +68,7 @@ class _EmployeeListState extends State<EmployeeView> with SingleTickerProviderSt
             } else {
               return AnimatedList(
                 key: _listKey,
-                initialItemCount: _employees.length,
+                initialItemCount: 0,
                 itemBuilder: (context, index, animation) {
                   return _buildAnimatedEmployeeItem(_employees[index], animation);
                 },
@@ -91,10 +91,12 @@ class _EmployeeListState extends State<EmployeeView> with SingleTickerProviderSt
 
     return SlideTransition(
       position: _offsetAnimation,
-      child: ListTile(
-        title: Text(employee.name),
-        subtitle: Text('${employee.department} - ${employee.designation}'),
-        trailing: CircleAvatar(child: Text(employee.name[0])),
+      child: Card(
+        child: ListTile(
+          title: Text(employee.name),
+          subtitle: Text('${employee.department} - ${employee.designation}'),
+          trailing: CircleAvatar(child: Text(employee.name[0])),
+        ),
       ),
     );
   }
